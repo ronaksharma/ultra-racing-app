@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Hero} from './Hero';
 import {HeroService} from './hero.service';
@@ -28,9 +28,15 @@ const SIDE_HEROES: Hero[] = [
   styleUrls: ['./app.component.css'],
   providers: [HeroService]
 })
-export class AppComponent {
+
+
+export class AppComponent implements OnInit{
+  ngOnInit(): void {
+    this.getHeroes();
+  }
+
   constructor(private heroService: HeroService){
-    this.heroes = this.heroService.getHeroes();
+    
   };
   title = 'Tour of heroes';
   selectedHero: Hero ;
@@ -39,5 +45,8 @@ export class AppComponent {
   onSelect(hero: Hero) : void{
     this.selectedHero = hero;
   } 
+  getHeroes(): void{
+   this.heroService.getHeroesSlowly().then(heroes => this.heroes = heroes)
+  }
 }
   
